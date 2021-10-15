@@ -1,6 +1,6 @@
 ## Loic Konan
 
-#### Repo: Python Lessons
+#### Repo: Flutter Lessons
 
 #### Email: Loickonan.lk@gmail.com
 
