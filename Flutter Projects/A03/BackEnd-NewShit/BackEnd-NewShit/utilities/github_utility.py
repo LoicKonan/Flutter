@@ -2,19 +2,69 @@ import csv
 
 
 from pprint import pprint
-
-
+import csv
+import rich
+from rich.console import Console
+import pandas as pd
 import requests
 import os
+import git
+from git import Repo
+
+from utilities.utility import Utility
 
 
-
-class Github_Utility:
+class Github_Utility (Utility):
     def __init__(self):
         '''
         :var response -> str: used to restore reponse from google docs api
         '''
         self.response: str = ''
+    def import_class_doc_CSV(self, file: str, class_name: str):
+        mydict = {}
+
+        csv_input = csv.DictReader(open('3013.csv'))
+        mylist = []
+        for row in csv_input:
+            name = None
+            link = None
+            temp_dict = {}
+            for key, value in row.items():
+                print(key)
+                if str(key) == 'None':
+                    pprint('none key found')
+                if (key == 'Last') and (str(value) != 'None'):
+                    name = str(value)
+                elif (key == 'Link to Github') and (str(value) != 'None'):
+                    link = str(value)
+                    temp_item ={name:link}
+                    mylist.append(temp_item)
+                    mydict[name] = link
+         # if os.path.isdir('./repos')
+
+        pprint(mylist)
+        self.make_repos(mylist, class_name)
+    def make_repos(self, class_list: list, class_name: str):
+        if not os.path.isdir('../repos'):
+            print('making repos directory')
+            os.mkdir('../repos')
+            os.mkdir(f'../repos/{class_name}')
+        if not os.path.isdir(f'../repos/{class_name}'):
+            os.mkdir(f'../repos/{class_name}')
+        os.chdir(f'../repos/{class_name}')
+        for item in class_list:
+            for name, repo in item.items():
+                try:
+                    git_msg = f'git@github.com:{repo[19:]}'
+                    Repo.clone_from(
+                        git_msg, f'./{name}'
+                    )
+                except git.GitCommandError as e:
+                    print(f'Unable to clone from {repo}')
+                # print(git_msg)
+                # os.system(git_msg)
+                # os.system('pwd')
+                # os.chdir('../')
 
     def import_google_class(self, document_id, class_name):
         '''
@@ -40,8 +90,10 @@ class Github_Utility:
         except requests.HTTPError as e:
             return "Failed to connect to Google_Doc api"
         self.response = self.response.content.decode('utf-8')
+
         self.response = list(csv.reader(self.response.splitlines(),
-                                      delimiter=','))
+                                     delimiter=','))
+        print(self.response)
         for i in range(len(self.response)):
             while('' in self.response[i]):
                 self.response[i].remove('')
@@ -109,13 +161,14 @@ class Github_Utility:
                 for item in student_directories:
                     os.chdir(item)
                     os.system('git pull')
-                    os.chdir('cd ..')
+                    os.chdir('cd ../..')
         else:
             return 'Missing folder "repos". Unable to pull student changes'
 
 
 if __name__=='__main__':
     gu = Github_Utility()
-    gu.import_google_class("1jAkhTTA8b8BxF5ckkyct44jOz8PNmREB9QxGERVDSeY",
-                           '4883_programming_techniques')
-    gu.pull_current_changes('4883_programming_techniques')
+    #gu.import_google_class("SvxY7V82s1o-MfIch2vWafe0FpAWLEObwlbyb2lK7yk",
+    #                       '3013')
+    gu.pull_current_changes('3013_Fall_2012')
+    #gu.import_class_doc_CSV('3013.csv', '3013_Fall_22')

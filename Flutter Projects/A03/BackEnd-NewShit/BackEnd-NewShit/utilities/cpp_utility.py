@@ -4,10 +4,15 @@ import os
 
 
 import re
-
+import logging
 from subprocess import PIPE, run
 from pprint import pprint
-class CPPUtility:
+
+# Global Decoration for logger
+from utilities.utility import Utility
+
+logger = logging.getLogger('cpp_logger')
+class CPPUtility(Utility):
     '''
     @member: cpp_files: list of cpp_files used for compilations
     @member: executables: optional: list of names for execuatable files
@@ -28,10 +33,11 @@ class CPPUtility:
         self.options: list = []
         self.assn_num: str = ''
         self.results: dict = {}
+        self.git_path:  str = ''
+        self.cmd_args: str =''
 
 
-    def pull_class_details(self, google_document_id: str, class_title: str) -> None:
-        pass
+
 
     def check_params(self, **kwargs) -> str:
         '''
@@ -47,6 +53,16 @@ class CPPUtility:
         '''
         message: str = ''
         try:
+            if kwargs['cmd_args']:
+                self.cmd_args = kwargs['cmd_args']
+        except KeyError as k:
+            print(k)
+        try:
+            if kwargs['git_path']:
+                self.git_path = kwargs['git_path']
+        except KeyError as e:
+            message += f'Failed to include correct path to git directory. \n {e}'
+        try:
             if kwargs['assn_num']:
                 self.assn_num = kwargs['assn_num']
         except KeyError:
@@ -59,13 +75,15 @@ class CPPUtility:
             if type(self.cpp_files) == list:
                 # check for correct file type
                 for cpp_file in self.cpp_files:
+                    cpp_file = f'{self.git_path}{cpp_file}'
+                    print(cpp_file)
                     regexp = re.compile('.cpp')
                     if not regexp.search(cpp_file):
                         message += f'Invalid file name: {cpp_file}\n'
 
         except KeyError as e:
             message += f'Dictionary {e}.  **kwargs["cpp_file"] is a required' \
-                   f' parameter.'
+                       f' parameter.'
         try:
             # Merely check to ensure existence of Assignment number to be
             # returned to the Database Utilities module
@@ -88,7 +106,7 @@ class CPPUtility:
                 self.executables.append(f'executable{str(i)}')
 
 
-        if not len(self.executables) == len(self.cpp_files):
+        if not len(self.executables) == len(self.cpp_files) :
             # Ensure length of executable and cpp_files are the same for
             # build and compilation
             message += 'cpp_file and executables are mismatched in length. \n'
@@ -103,7 +121,7 @@ class CPPUtility:
             pass
         self.options.append('-Wall -std=c++11 ')
         return message
-    def run_cpp(self, **kwargs) -> dict:
+    def run_cpp(self, **kwargs):
         '''
         :param:    kwargs:
         :argument: "cpp_file=" -> list of cpp files to be compiled
@@ -127,39 +145,68 @@ class CPPUtility:
             # create dictionary of cppfiles with executable fil names
             zip_list = dict(zip(self.cpp_files, self.executables))
             # join options into one string
+            pprint(zip_list)
             option_str = ''.join(self.options)
-            print(option_str)
+            print(f'OPTION_STR = {option_str}')
             for key, value in zip_list.items():
-                with open(key, 'r') as c_file:
-                    # open c file and string comments from it
-                    content = c_file.read()
-                    regex = re.compile(r'((\/\/(.*?))\n|(\/\*(.|\n)*\*\/))', re.DOTALL | re.MULTILINE)
-                    # return regexp from content
-                    found = regex.finditer(content)
-                    self.results[key] = {}
-                    print(f'Found = {found}')
-                    self.results[key]['comments'] = ''
-                    for match in found:
-                        self.results[key]["comments"] += match.group(0)
-
-                    self.results[key]["lines"] = str(self.results[key][
-                        "comments"]).count('\n')
-                    print(self.results[key]["lines"])
-                    print(self.results[key]['comments'])
-
-
+                #self.collect_cpp_comments(key)
+                # with open(key, 'r') as c_file:
+                #     # open c file and string comments from it
+                #     content = c_file.read()
+                #     regex = re.compile(r'((\/\/(.*?))\n|(\/\*(.|\n)*\*\/))', re.DOTALL | re.MULTILINE)
+                #     # return regexp from content
+                #     found = regex.finditer(content)
+                #     self.results[key] = {}
+                #     print(f'Found = {found}')
+                #     self.results[key]['comments'] = ''
+                #     for match in found:
+                #         self.results[key]["comments"] += match.group(0)
+                #
+                #     self.results[key]["lines"] = str(self.results[key][
+                #         "comments"]).count('\n')
+                #     print(self.results[key]["lines"])
+                #     print(self.results[key]['comments'])
+                print(f'I am making it here {str(key)}')
+                print(f'The git path is {self.git_path}')
+                os.chdir(f'{self.git_path}')
+                dir = os.system('pwd')
+                print(f'The current working directory is {os.system("pwd")}')
                 os.system(f"g++ -c -std=c++20 *.cpp")
                 os.system(f"g++ *.o -o  a.out")
                 result = run('./a.out', stdout=PIPE, universal_newlines=True,
                          shell=False)
+                print(result)
+                self.results[key] = {}
                 self.results[key]['output'] = result
             pprint(self.results)
         else:
             print(result)
+    def collect_cpp_comments(self, cpp_file):
+        with open(f'{self.git_path}{cpp_file}', 'r') as c_file:
+            # open c file and string comments from it
+            content = c_file.read()
+            regex = re.compile(r'((\/\/(.*?))\n|(\/\*(.|\n)*\*\/))',
+                               re.DOTALL | re.MULTILINE)
+            # return regexp from content
+            found = regex.finditer(content)
+
+            self.results[cpp_file] = {}
+            print(f'Found = {found}')
+            self.results[cpp_file]['comments'] = ''
+            for match in found:
+                self.results[cpp_file]["comments"] += match.group(0)
+                print(self.results[cpp_file]["comments"] )
+
+            self.results[cpp_file]["lines"] = str(self.results[cpp_file][
+                                                 "comments"]).count('\n')
+            print(self.results[cpp_file]["lines"])
+            print(self.results[cpp_file]['comments'])
 
 
 if __name__=='__main__':
     gu: CPPUtility = CPPUtility()
-    ret = gu.run_cpp(cpp_file=["hello.cpp"],
-                     assn_num="A01")
+    ret = gu.run_cpp(cpp_file=["P01.cpp"],
+                     assn_num="P01",
+                     git_path='/Users/drewsmith/PycharmProjects/BackEnd'
+                           '/repos/3013_Fall_22/Adesan/Assignments/P01/')
 
