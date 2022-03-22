@@ -7,6 +7,8 @@ void main() {
 }
 
 // Main Driver for the application
+// It call the widget build that will call for the
+// HomeScreen and the LoginScreen.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

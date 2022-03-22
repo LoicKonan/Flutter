@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// This is the class that will handle the LoginScreen
+// It will set the color and the different widgets that
+// will be displayed on the screen. and the authentication
+// of the user, LIKE THE PASSWORD and the User Name.
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
 
@@ -41,12 +45,14 @@ class LoginView extends StatelessWidget {
     );
   }
 
+// The login Widget.
   Widget _login_row() {
     return Row(
       children: [_github_button(), _google_button()],
     );
   }
 
+// The Username Widget..
   Widget _user_name_Field() {
     return TextFormField(
         obscureText: false,
@@ -65,6 +71,7 @@ class LoginView extends StatelessWidget {
             hintText: 'User Name'));
   }
 
+// The Password widgets
   Widget _passwordField() {
     return TextFormField(
         obscureText: true,
@@ -83,6 +90,7 @@ class LoginView extends StatelessWidget {
             hintText: 'Password'));
   }
 
+// This widgets handle the picture of the logo.
   Widget _logo_image() {
     return Image.asset('assets/images/logo.png');
   }
