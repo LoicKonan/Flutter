@@ -17,7 +17,7 @@ from utilities.utility import Utility
 class Github_Utility (Utility):
     def __init__(self):
         '''
-        :var response -> str: used to restore reponse from google docs api
+        :var response -> str: used to restore reponsed from google docs api
         '''
         self.response: str = ''
     def import_class_doc_CSV(self, file: str, class_name: str):
