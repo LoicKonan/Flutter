@@ -1,5 +1,6 @@
 import 'package:agsoft/Models/user.dart';
 import 'package:agsoft/components/app_bar.dart';
+import 'package:agsoft/utilities/user_secure_storage.dart';
 import 'package:agsoft/views/home_screen/home_screen.dart';
 import 'package:agsoft/views/registration_view/form_view.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +29,14 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xFFc2c5aa),
+      backgroundColor: Color(0xFFf0d578),
       appBar: CustomAppBar(
-        backgroundColor: Color(0xff414833),
-        title: "Login",
+        backgroundColor: Color(0xff862633),
+        title: "Welcome to AGsoft",
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        margin: EdgeInsets.all(150),
+        margin: EdgeInsets.all(50),
         child: Form(
           autovalidateMode: AutovalidateMode.always,
           child: Column(
@@ -47,7 +48,7 @@ class _LoginViewState extends State<LoginView> {
                 height: 10,
               ),
               _login_button(context),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               _registration_button(context),
@@ -70,7 +71,7 @@ class _LoginViewState extends State<LoginView> {
           onSaved: (String? value) {
             username = value;
           },
-          style: TextStyle(color: Colors.black54),
+          style: const TextStyle(color: Colors.black54),
           // textAlign: TextAlign.center,
           decoration: const InputDecoration(
               hintStyle: TextStyle(color: Colors.black87),
@@ -147,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
         );
       },
       style: TextButton.styleFrom(
-        primary: Color(0xff582f0e),
+        primary: Color(0xff000000),
       ),
     );
   }
@@ -156,19 +157,19 @@ class _LoginViewState extends State<LoginView> {
     return Container(
         child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: Color(0xff414833),
+          primary: Color(0xff862633),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(7.0))),
-      onPressed: () {
-        // login();
-        print('Passoword = $password');
-        print('Username = $username');
-        login();
+      onPressed: login, //() {
+      //   // login();
+      //   print('Passoword = $password');
+      //   print('Username = $username');
+      //   login();
 
-        // login();
-      }, // onPressed
+      //   // login();
+      // }, // onPressed
       child: Text('Login'),
       // style: ElevatedButton.styleFrom(
       //     shape: new RoundedRectangleBorder(
@@ -197,7 +198,10 @@ class _LoginViewState extends State<LoginView> {
       print(token);
       final SharedPreferences sp = await SharedPreferences.getInstance();
       sp.setString('token', token);
+      sp.setString('username', username!);
+
       print("######################################################");
+      print(sp.getString('username'));
       print(sp.getString('token'));
       Navigator.push(
         context,

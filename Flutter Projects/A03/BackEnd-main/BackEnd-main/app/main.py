@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer
-from app.api.file_router.file_upload import file_upload
-from app.api.authentication.authenticate import authenticate
+from api.file_router.file_upload import file_upload
+from api.authentication.authenticate import authenticate
 from fastapi.middleware.cors import CORSMiddleware
 
 import uvicorn

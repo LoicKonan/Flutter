@@ -35,24 +35,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return Scaffold(
+        appBar: AppBar(
       actions: <Widget>[
         Padding(
-          padding: EdgeInsets.only(right: 20.0),
+          padding: EdgeInsets.only(right: 5, top: 5, bottom: 5),
           child: GestureDetector(
             onTap: () {},
-            child: Icon(
-              Icons.search,
-              size: 26.0,
-            ),
+            child: Image.asset('assets/images/mwsu2.png', fit: BoxFit.cover),
           ),
         ),
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(Icons.more_vert),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Icon(Icons.more_vert),
+        //     )),
       ],
       backgroundColor: backgroundColor,
       centerTitle: true,
@@ -60,11 +58,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
-          Icons.menu, // add custom icons also
+          Icons.menu,
+          color: Color(0xFFffffff), // add custom icons also
         ),
       ),
       title: Text(title as String),
-    );
+    ));
   }
 
   @override

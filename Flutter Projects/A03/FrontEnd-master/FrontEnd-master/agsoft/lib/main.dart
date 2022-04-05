@@ -1,3 +1,4 @@
+import 'package:agsoft/views/card_views/card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:agsoft/views/login_form/login_view.dart';
 import 'package:agsoft/views/home_screen/home_screen.dart';
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       home: LoginView(),
       routes: {
         '/second': (context) => HomeScreen(),
-        '/registration': (context) => FormScreen()
+        '/registration': (context) => FormScreen(),
+        '/class': (context) => CardWidgetView(),
       },
       theme: new ThemeData(scaffoldBackgroundColor: Color(0x0000000)),
     );

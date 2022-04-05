@@ -15,24 +15,22 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   String? firstName;
+  String? username;
   String? lastName;
   String? email;
   String? password;
   bool obscureText = true;
 
-  void postData() async {
-    try {
-      var response =
-          http.post(Uri.parse('http://127.0.0.1:8000/register'), body: {
-        "fullname": ('$firstName  $lastName'),
-        "username": email,
-        "email": email,
-        "password": password
-      });
-      print(response);
-    } catch (e) {
-      print(e);
-    }
+  Future<void> login() async {
+    print('*****************************');
+    final uri = 'http://localhost:8000/register';
+    var map = new Map<String, dynamic>();
+    map['username'] = username;
+    map['password'] = password;
+    final response = await http.post(
+      Uri.parse(uri),
+      body: map,
+    );
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -184,16 +182,13 @@ class _FormScreenState extends State<FormScreen> {
     return Container(
         child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: const Color(0xff414833),
+          primary: const Color(0xff862633),
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          textStyle:
+              const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(7.0))),
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          Navigator.pop(context);
-        }
-      }, // onPressed
+      onPressed: () {}, // onPressed
       child: const Text('Register'),
       // style: ElevatedButton.styleFrom(
       //     shape: new RoundedRectangleBorder(
@@ -208,12 +203,12 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFc2c5aa),
+      backgroundColor: const Color(0xFFf0d578),
       appBar: const CustomAppBar(
-          title: 'Registration', backgroundColor: const Color(0xff414833)),
+          title: 'Registration', backgroundColor: const Color(0xff862633)),
       body: Container(
         alignment: Alignment.topCenter,
-        margin: const EdgeInsets.all(150),
+        margin: const EdgeInsets.all(50),
         child: Form(
           autovalidateMode: AutovalidateMode.always,
           child: Column(
