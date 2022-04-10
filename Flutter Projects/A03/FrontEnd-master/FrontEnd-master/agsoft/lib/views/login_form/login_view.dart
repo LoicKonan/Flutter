@@ -10,6 +10,7 @@ import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:agsoft/views/testview/testview.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -162,7 +163,12 @@ class _LoginViewState extends State<LoginView> {
           textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(7.0))),
-      onPressed: login, //() {
+      onPressed: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TestView()),
+        );
+      }, //() {
       //   // login();
       //   print('Passoword = $password');
       //   print('Username = $username');
