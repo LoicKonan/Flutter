@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_treeview/flutter_treeview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:agsoft/views/testview/testview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,11 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: IconButton(
                 onPressed: () {
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TestView(),
-                      ));
+                  print('pressed');
                 },
                 icon: Icon(Icons.message),
               ),

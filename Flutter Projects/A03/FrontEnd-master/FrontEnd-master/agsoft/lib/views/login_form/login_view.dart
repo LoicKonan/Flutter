@@ -10,7 +10,6 @@ import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:agsoft/views/testview/testview.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -163,12 +162,7 @@ class _LoginViewState extends State<LoginView> {
           textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(7.0))),
-      onPressed: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TestView()),
-        );
-      }, //() {
+      onPressed: login, //() {
       //   // login();
       //   print('Passoword = $password');
       //   print('Username = $username');
@@ -189,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> login() async {
     print('*****************************');
-    final uri = 'http://localhost:8000/token';
+    final uri = 'http://157.245.141.117:8000/token';
     var map = new Map<String, dynamic>();
     map['username'] = username;
     map['password'] = password;

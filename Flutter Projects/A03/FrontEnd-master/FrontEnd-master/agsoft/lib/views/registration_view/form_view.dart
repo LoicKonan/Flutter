@@ -23,7 +23,7 @@ class _FormScreenState extends State<FormScreen> {
 
   Future<void> login() async {
     print('*****************************');
-    final uri = 'http://localhost:8000/register';
+    final uri = 'http://157.245.141.117:8000/register';
     var map = new Map<String, dynamic>();
     map['username'] = username;
     map['password'] = password;
