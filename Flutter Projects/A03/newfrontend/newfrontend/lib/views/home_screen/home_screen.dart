@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            Image .asset('assets/images/new.png', fit: BoxFit.cover),
             ListTile(
               leading: IconButton(
                 onPressed: () {
