@@ -84,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Image .asset('assets/images/logo.png', fit: BoxFit.cover),
             ListTile(
               leading: IconButton(
                 onPressed: () {
@@ -131,7 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               title: Text('Upload Assignments'),
             ),
-              Image .asset('assets/images/logo.png', fit: BoxFit.cover)
           ],
         ),
       ),
