@@ -1,5 +1,6 @@
+import subprocess
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Any
 
 class FileUpload(BaseModel):
     language: str
@@ -40,3 +41,8 @@ class FailedResponse(BaseModel):
     details: str
     expected_parameters: str
 
+class ReturnProcess(BaseModel):
+    comments: list
+    make: Any
+    std_out: str
+    results: str

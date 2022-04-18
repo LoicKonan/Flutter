@@ -126,7 +126,7 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
 
 @authenticate.post('/register', response_model=User)
 async def register_user(new_user: User):
-
+    print(new_user)
     if (new_user.password is not None) and (new_user.username is not None):
         user_exist = mongo_utility.check_existing_user(new_user.username)
         print(f'User already exists')

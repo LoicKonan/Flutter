@@ -190,23 +190,30 @@ class CPPUtility(Utility):
             with open(cpp_file ,'r') as c_file:
                 # open c file and string comments from it
                 content = c_file.read()
-
+                
                 regex = re.compile(r'((\/\/(.*?))\n|(\/\*(.|\n)*\*\/))',
                                    re.DOTALL | re.MULTILINE)
                 # return regexp from content
                 found = regex.finditer(content)
 
-                self.results[cpp_file] = {}
+                self.results['file'] = {}
                 print(f'Found = {found}')
-                self.results[cpp_file]['comments'] = ''
+                self.results['file']['comments'] = ''
+                i = 0
+                comment_results = ''
                 for match in found:
-                    self.results[cpp_file]["comments"] += match.group(0)
-                    print(self.results[cpp_file]["comments"] )
-
-                self.results[cpp_file]["lines"] = str(self.results[cpp_file][
+                    print(f'i = {i}')
+                    comment_results += match.group(0)
+                    print(self.results['file']["comments"] )
+                self.results['file']["comments"] += comment_results
+                self.results['file']["lines"] = str(self.results['file'][
                                                      "comments"]).count('\n')
-                print(self.results[cpp_file]["lines"])
-                print(self.results[cpp_file]['comments'])
+                self.results['file']['total_lines'] = self.count_total_lines(cpp_file)
+                self.results['file']['comment_percentage'] = \
+                    (float(self.results['file']["lines"]) / float(self.results['file']['total_lines'])) * 100
+                print(self.results['file']["lines"])
+                print(self.results['file']['comments'])
+                
         else:
             print(f'File does not exists')
         return self.results

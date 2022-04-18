@@ -1,0 +1,4 @@
+mike smith is a senior whose GPA is: 3.78
+john smith is a junior whose GPA is: 3.5
+
+The class average is: 3.64

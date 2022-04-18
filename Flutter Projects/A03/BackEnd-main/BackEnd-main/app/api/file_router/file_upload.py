@@ -3,9 +3,10 @@ import uvicorn
 from typing import Optional, List
 from models.models import FailedResponse
 from fastapi import FastAPI, File, UploadFile, APIRouter, HTTPException, status
-
+import json
 from utilities.cmake_utility import CmakeUtility
 from utilities.mongo_utility import MongoUtility
+from pprint import pprint
 file_upload = APIRouter()
 mongo_utility = MongoUtility()
 
@@ -22,15 +23,19 @@ async def create_file(file: Optional[bytes] = File(None)):
 
 # async def create_upload_file(file_list: Optional[List[UploadFile]] = None):
 
-@file_upload.post('/test')
-async def print_parameters(param1: str):
-    print(param1)
-@file_upload.post("/uploadfile/")
+
+@file_upload.post("/uploadfile")
 async def create_upload_file(collection: str,
                              student_name: str,
                              assn_num:str,
                              file_list: Optional[List[UploadFile]] = None,
                              ):
+    print('Is this ever hit??????????????????')
+    print(collection)
+    print(student_name)
+    print(assn_num)
+    if file_list:
+        print(f'File list exists!')
     cu = CmakeUtility()
 
     if not file_list:
@@ -45,6 +50,12 @@ async def create_upload_file(collection: str,
                     student_name,
                     assn_num,
                     file_list)
+    # for key, value in results.items():
+    #     print(f'key = {key}')
+    #     print(f'value={value}')
+    print(type(results))
+    # json_object = json.dumps(results)
+    pprint(results, indent=4)
     return results
         # return_value = mongo_utility.store_cpp_file_list(collection,
         #                                               student_name, file_list)

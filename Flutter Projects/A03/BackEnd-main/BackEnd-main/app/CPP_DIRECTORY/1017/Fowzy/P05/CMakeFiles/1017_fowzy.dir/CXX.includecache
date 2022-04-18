@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/var/www/AGsoft/BackEnd/app/CPP_DIRECTORY/1017/fowzy/P05/cs1.cpp
+iostream
+-
+fstream
+-
+iomanip
+-
+
